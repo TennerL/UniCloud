@@ -93,7 +93,7 @@ session_start();
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100" style="background-color:#323232 !important;">
-      <img style="margin:auto; margin-top: 25px; display:block" src="<?php echo $approot ?>/ressources/images/ooii.gif" width="400px" /> 
+      <!-- <img style="margin:auto; margin-top: 25px; display:block" src="<?php echo $approot ?>/ressources/images/ooii.gif" width="400px" />  -->
       <?php include($mainContent); ?>
       </main>
       <dialog id="dialog" class="mdl-dialog">

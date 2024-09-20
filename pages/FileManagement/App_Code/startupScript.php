@@ -126,13 +126,7 @@
                         "<ul style='margin: 0; padding: 0; list-style-type: none;'><li><a style='text-decoration: none; color: white;' href='" + $URL + keyDir[i] + "/" + fileNames[i] + "'>" + fileNames[i] + "</a></li></ul></div>" +
                         "<div class='mdl-cell mdl-cell--1-col' style=' display: flex; justify-content: flex-end; align-items: center; padding-right: 8px;'>" +
                         "<button class='mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon download id='btnDownload'>"+
-                        "<i class='material-icons'>download</i>" +
-                        "<button class='mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon actions' id='actions" + i + "'>" +
-                        "<i class='material-icons'>more_vert</i>" +
-                        "</button>" +
-                        "<ul class='mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right' for='actions" + i + "'>" +
-                        "<li class='mdl-menu__item' onclick='DeleteFile(\"" + fileNames[i] + "\", \"" + keyDir[i] + "\")'>Delete " + fileNames[i] + "</li>"
-                        "</ul>" +
+                        "<i class='material-icons' onclick='DeleteFile(\"" + fileNames[i] + "\", \"" + keyDir[i] + "\")'>delete</i>"+
                         "</div></div>";
                     renonseContainer1.appendChild(fileElement);
                     $(fileElement).draggable({axis: "y"});
