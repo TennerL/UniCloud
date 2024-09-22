@@ -1,3 +1,4 @@
+    
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("view-source");
     var span = document.getElementsByClassName("close")[0];
@@ -19,7 +20,7 @@
         $("#uploadButton").click(function() {
             var formData = new FormData();
             var fileInput = document.getElementById("fileInput").files[0];
-            var folderInput = document.getElementById("DdlFolders").value;
+            var folderInput = 0;
 
     
             formData.append("fileInput", fileInput);
@@ -84,60 +85,67 @@
                 keyDir.push(file.KeyDir);
                 folderID.push(file.FolderName)
             });
-            var renonseContainer = document.getElementById("response");
-            var renonseContainer1 = document.getElementById("response1");
+
+            var fileContainer = document.getElementById("response1");
 
             jsonData.folders.forEach(file => {
                 folders.push(file);
             })
                                   
             jsonData.folders.forEach(folder => {
-                var folderContent = "";
+                let folderContainer = document.getElementById("folderContainer");
+                // Container IM Container für die Ordner
+                let folderElement = document.createElement("div");
+                folderElement.setAttribute("id","folderElement");
+                folderElement.style= "background-color:#444; border-radius: 5px; margin-right: 10px; margin-left:10px; margin-bottom:10px; margin-top:10px; display: flex; justify-content: space-between; align-items: center; padding: 0px !important;"
+                let folderInnerContent = document.createElement("div")
+                folderInnerContent.className = "mdl-cell mdl-cell--11-col"
+                folderInnerContent.style = "height: 40px; display: flex; align-items: center;"
+                folderInnerContent.innerHTML = "<span class='material-icons'>folder</span>"+folder;
 
-                for (var i = 0; i < fileNames.length; i++) {
-                    if (folderID[i] == folder) {
-                        folderContent += "<a class='links1' href='" + $URL + keyDir[i] + "/" + fileNames[i] + "'>" + fileNames[i] + "</a><br />";
-                    }
-                }
-
-                if (folderContent !== "") {
-                    var folderElement = document.createElement("div");
-                    folderElement.className = "mdl-grid folderElement";
-
-                    var details = document.createElement("details");
-                    var summary = document.createElement("summary");
-                    summary.textContent = folder;
-                    details.appendChild(summary);
-                    details.innerHTML += folderContent;
-
-                    renonseContainer.appendChild(details);
-                    renonseContainer.appendChild(folderElement);
-
-                    $(folderElement).droppable();
-                }
+                folderContainer.appendChild(folderElement);
+                folderElement.appendChild(folderInnerContent);
             });
 
-            for (i = 0; i < fileNames.length; i++){
-                if (folderID[i] == "") {
-                    var fileElement = document.createElement("div");
-                    fileElement.className = "mdl-grid fileElement"; // Adding class name
-                    fileElement.style = "background-color:#444; border-radius: 5px; margin-right: 10px; margin-left:10px; margin-bottom:10px; display: flex; justify-content: space-between; align-items: center; padding: 0px !important;";
-                    fileElement.innerHTML = "<div id='response1' class='mdl-cell mdl-cell--11-col' style='height: 40px; display: flex; align-items: center;'>" +
-                        "<ul style='margin: 0; padding: 0; list-style-type: none;'><li><a style='text-decoration: none; color: white;' href='" + $URL + keyDir[i] + "/" + fileNames[i] + "'>" + fileNames[i] + "</a></li></ul></div>" +
-                        "<div class='mdl-cell mdl-cell--1-col' style=' display: flex; justify-content: flex-end; align-items: center; padding-right: 8px;'>" +
-                        "<button class='mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon download id='btnDownload'>"+
-                        "<i class='material-icons' onclick='DeleteFile(\"" + fileNames[i] + "\", \"" + keyDir[i] + "\")'>delete</i>"+
-                        "</div></div>";
-                    renonseContainer1.appendChild(fileElement);
-                    $(fileElement).draggable({axis: "y"});
-                }
-            }
+            jsonData.files.forEach(files => {
+                var fileElement = document.createElement("div");
+                fileElement.className = "mdl-grid"; // Adding class name
+                fileElement.setAttribute("id","fileElement"+files.ID);
+                fileElement.style = "background-color:#444; border-radius: 5px; margin-right: 10px; margin-left:10px; margin-bottom:10px; display: flex; justify-content: space-between; align-items: center; padding: 0px !important;";
+                fileElement.innerHTML = "<div id='response1' class='mdl-cell mdl-cell--11-col' style='height: 40px; display: flex; align-items: center;'>" +
+                    "<ul style='margin: 0; padding: 0; list-style-type: none;'><li><a style='text-decoration: none; color: white;' href='" + $URL + files.KeyDir + "/" + files.FileName + "'>" + files.FileName + "</a></li></ul></div>" +
+                    "<div class='mdl-cell mdl-cell--1-col' style=' display: flex; justify-content: flex-end; align-items: center; padding-right: 8px;'>" +
+                    "<button class='mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon download id='btnDownload'>"+
+                    "<button onclick='DeleteFile(\"" + files.FileName + "\", \"" + files.KeyDir + "\")'>delete</button>"+
+                    "</div></div>";
+                            
+                fileContainer.appendChild(fileElement);
+                $(fileElement).draggable({axis: "y"});
+
+                $(function() {
+                    $("#folderElement").droppable({
+                        drop: function(event, ui) {
+                            moveFile(files.FileName,"")
+                        }
+                    });
+                });
+                
+            }); 
+
+        
         },
         error: function(xhr, status, error) {
             console.error(error);
         }
     });
 });
+
+
+    function moveFile(filename, foldername){
+        console.log(filename + foldername);
+    }
+
+
 
     function DeleteFile(fileName, keyDir) {
         var formData = new FormData();
@@ -163,13 +171,8 @@
         });
     };
 
-    $(function() {
-        $("#fileElement").draggable();
-    });
-    $(function() {
-        $("#folderElement").droppable({
-            drop: function(event, ui) {
-                console.log("Element wurde in den Ordner abgelegt");
-            }
-        });
-    });
+
+
+
+
+

@@ -71,14 +71,8 @@ summary {
   color:white;
 }
 </style>
+<div id="folderContainer">
 
-
-
-<div class="mdl-grid">
-  <div style="" class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet">
-    <div id="response" class="content mdl-typography--text-left response">
-    </div>
-  </div>
 </div>
 
 <div id="response1">
